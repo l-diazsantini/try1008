@@ -191,7 +191,7 @@ class _PowerSupplyWidgetState extends State<PowerSupplyWidget> {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 4.0, 0.0, 0.0),
                                         child: Text(
-                                          'Produce 5 volts.',
+                                          'Tap to produce 5 volts, tap again to stop.',
                                           style: FlutterFlowTheme.of(context)
                                               .labelMedium
                                               .override(
@@ -271,7 +271,7 @@ class _PowerSupplyWidgetState extends State<PowerSupplyWidget> {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 4.0, 0.0, 0.0),
                                         child: Text(
-                                          'Prodcuce -5 volts.',
+                                          'Tap to produce -5 volts, tap again to stop.',
                                           style: FlutterFlowTheme.of(context)
                                               .labelMedium
                                               .override(

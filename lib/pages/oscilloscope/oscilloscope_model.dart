@@ -40,6 +40,8 @@ class OscilloscopeModel extends FlutterFlowModel<OscilloscopeWidget> {
   List<double>? listt;
   // Stores action output result for [Custom Action - getMaxValueAndPosition] action in Button widget.
   List<dynamic>? amplitude;
+  // Stores action output result for [Custom Action - receiveData] action in Button widget.
+  String? dat;
 
   @override
   void initState(BuildContext context) {}

@@ -247,6 +247,22 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               isList: false,
               structBuilder: BTDeviceStruct.fromSerializableMap,
             ),
+            deviceName: params.getParam(
+              'deviceName',
+              ParamType.String,
+            ),
+            deviceId: params.getParam(
+              'deviceId',
+              ParamType.String,
+            ),
+            deviceRssi: params.getParam(
+              'deviceRssi',
+              ParamType.int,
+            ),
+            hasWriteChracteristic: params.getParam(
+              'hasWriteChracteristic',
+              ParamType.bool,
+            ),
           ),
         ),
         FFRoute(

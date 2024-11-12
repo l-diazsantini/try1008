@@ -222,15 +222,6 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
                   hoverColor: Colors.transparent,
                   highlightColor: Colors.transparent,
                   onTap: () async {
-                    await actions.sendData(
-                      BTDeviceStruct(
-                        name: widget!.deviceName,
-                        id: widget!.deviceId,
-                        rssi: _model.currentRssi,
-                      ),
-                      'Oscilloscope',
-                    );
-
                     context.pushNamed(
                       'Oscilloscope',
                       queryParameters: {
@@ -241,6 +232,22 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
                             rssi: widget!.deviceRssi,
                           ),
                           ParamType.DataStruct,
+                        ),
+                        'deviceName': serializeParam(
+                          widget!.deviceName,
+                          ParamType.String,
+                        ),
+                        'deviceId': serializeParam(
+                          widget!.deviceId,
+                          ParamType.String,
+                        ),
+                        'deviceRssi': serializeParam(
+                          widget!.deviceRssi,
+                          ParamType.int,
+                        ),
+                        'hasWriteChracteristic': serializeParam(
+                          true,
+                          ParamType.bool,
                         ),
                       }.withoutNulls,
                     );

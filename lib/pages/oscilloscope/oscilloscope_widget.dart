@@ -18,9 +18,17 @@ class OscilloscopeWidget extends StatefulWidget {
   const OscilloscopeWidget({
     super.key,
     this.devicee,
+    required this.deviceName,
+    required this.deviceId,
+    required this.deviceRssi,
+    required this.hasWriteChracteristic,
   });
 
   final BTDeviceStruct? devicee;
+  final String? deviceName;
+  final String? deviceId;
+  final int? deviceRssi;
+  final bool? hasWriteChracteristic;
 
   @override
   State<OscilloscopeWidget> createState() => _OscilloscopeWidgetState();
@@ -96,10 +104,22 @@ class _OscilloscopeWidgetState extends State<OscilloscopeWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
+                child: Text(
+                  'Press \"Start\" to begin. Press \"Stop\" to view measurements below.',
+                  textAlign: TextAlign.center,
+                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                        fontFamily: 'Montserrat',
+                        letterSpacing: 0.0,
+                      ),
+                ),
+              ),
               Align(
                 alignment: AlignmentDirectional(0.0, -1.0),
                 child: Padding(
-                  padding: EdgeInsets.all(24.0),
+                  padding:
+                      EdgeInsetsDirectional.fromSTEB(24.0, 5.0, 24.0, 24.0),
                   child: Container(
                     width: 288.0,
                     height: 100.0,
@@ -117,6 +137,14 @@ class _OscilloscopeWidgetState extends State<OscilloscopeWidget> {
                               padding: EdgeInsets.all(24.0),
                               child: FFButtonWidget(
                                 onPressed: () async {
+                                  await actions.sendData(
+                                    BTDeviceStruct(
+                                      name: widget!.deviceName,
+                                      id: widget!.deviceId,
+                                      rssi: widget!.deviceRssi,
+                                    ),
+                                    'Oscilloscope',
+                                  );
                                   _model.instantTimer = InstantTimer.periodic(
                                     duration: Duration(milliseconds: 1000),
                                     callback: (timer) async {
@@ -129,9 +157,6 @@ class _OscilloscopeWidgetState extends State<OscilloscopeWidget> {
                                           await actions.receiveAndPlotData(
                                         _model.dataaa!,
                                       );
-                                      _model.textT =
-                                          _model.listt!.toList().cast<double>();
-                                      safeSetState(() {});
                                       FFAppState()
                                           .addToXaxis(_model.listt!.first);
                                       FFAppState()
@@ -187,6 +212,19 @@ class _OscilloscopeWidgetState extends State<OscilloscopeWidget> {
                                     FFAppState().xaxis[_model.amplitude!.last],
                                     0.0,
                                   );
+                                  safeSetState(() {});
+                                  await actions.sendData(
+                                    BTDeviceStruct(
+                                      name: widget!.deviceName,
+                                      id: widget!.deviceId,
+                                      rssi: widget!.deviceRssi,
+                                    ),
+                                    'OscData',
+                                  );
+                                  _model.dat = await actions.receiveData(
+                                    widget!.devicee!,
+                                  );
+                                  _model.dataa = _model.dat;
                                   safeSetState(() {});
 
                                   safeSetState(() {});
@@ -300,20 +338,34 @@ class _OscilloscopeWidgetState extends State<OscilloscopeWidget> {
                     ),
                     child: Stack(
                       children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        Stack(
                           children: [
                             Align(
-                              alignment: AlignmentDirectional(0.0, 1.0),
+                              alignment: AlignmentDirectional(0.0, -1.0),
                               child: Padding(
-                                padding: EdgeInsets.all(24.0),
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 5.0, 0.0, 0.0),
                                 child: Text(
-                                  valueOrDefault<String>(
-                                    _model.time?.toString(),
-                                    '-',
-                                  ),
+                                  'Measurements:',
                                   textAlign: TextAlign.center,
+                                  style: FlutterFlowTheme.of(context)
+                                      .titleMedium
+                                      .override(
+                                        fontFamily: 'Montserrat',
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        letterSpacing: 0.0,
+                                      ),
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: AlignmentDirectional(-1.0, 0.0),
+                              child: Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    5.0, 0.0, 0.0, 0.0),
+                                child: Text(
+                                  'Time:',
                                   style: FlutterFlowTheme.of(context)
                                       .headlineMedium
                                       .override(
@@ -327,14 +379,12 @@ class _OscilloscopeWidgetState extends State<OscilloscopeWidget> {
                               ),
                             ),
                             Align(
-                              alignment: AlignmentDirectional(0.0, 1.0),
+                              alignment: AlignmentDirectional(-1.0, 1.0),
                               child: Padding(
-                                padding: EdgeInsets.all(24.0),
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    5.0, 0.0, 0.0, 5.0),
                                 child: Text(
-                                  valueOrDefault<String>(
-                                    _model.amp?.toString(),
-                                    '-',
-                                  ),
+                                  'Amplitude:',
                                   style: FlutterFlowTheme.of(context)
                                       .headlineMedium
                                       .override(
@@ -350,17 +400,43 @@ class _OscilloscopeWidgetState extends State<OscilloscopeWidget> {
                           ],
                         ),
                         Align(
-                          alignment: AlignmentDirectional(0.0, -1.0),
+                          alignment: AlignmentDirectional(-1.0, 1.0),
                           child: Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 20.0, 0.0, 0.0),
+                                135.0, 0.0, 0.0, 5.0),
                             child: Text(
-                              'Measurements:',
+                              valueOrDefault<String>(
+                                _model.amp?.toString(),
+                                '-',
+                              ),
                               style: FlutterFlowTheme.of(context)
-                                  .titleMedium
+                                  .headlineMedium
                                   .override(
                                     fontFamily: 'Montserrat',
                                     color: FlutterFlowTheme.of(context).primary,
+                                    fontSize: 22.0,
+                                    letterSpacing: 0.0,
+                                  ),
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: AlignmentDirectional(-1.0, 0.0),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                70.0, 0.0, 0.0, 0.0),
+                            child: Text(
+                              valueOrDefault<String>(
+                                _model.time?.toString(),
+                                '-',
+                              ),
+                              textAlign: TextAlign.center,
+                              style: FlutterFlowTheme.of(context)
+                                  .headlineMedium
+                                  .override(
+                                    fontFamily: 'Montserrat',
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    fontSize: 22.0,
                                     letterSpacing: 0.0,
                                   ),
                             ),
