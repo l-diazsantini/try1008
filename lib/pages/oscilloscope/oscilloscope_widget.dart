@@ -442,6 +442,45 @@ class _OscilloscopeWidgetState extends State<OscilloscopeWidget> {
                             ),
                           ),
                         ),
+                        Align(
+                          alignment: AlignmentDirectional(0.75, 0.72),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 5.0, 5.0),
+                            child: Text(
+                              valueOrDefault<String>(
+                                _model.dataa,
+                                '-',
+                              ),
+                              style: FlutterFlowTheme.of(context)
+                                  .headlineMedium
+                                  .override(
+                                    fontFamily: 'Montserrat',
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    fontSize: 22.0,
+                                    letterSpacing: 0.0,
+                                  ),
+                            ),
+                          ),
+                        ),
+                        Align(
+                          alignment: AlignmentDirectional(0.99, -0.1),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 5.0, 0.0),
+                            child: Text(
+                              '[Other Meas]:',
+                              style: FlutterFlowTheme.of(context)
+                                  .headlineMedium
+                                  .override(
+                                    fontFamily: 'Montserrat',
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    fontSize: 22.0,
+                                    letterSpacing: 0.0,
+                                  ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
